@@ -7,6 +7,8 @@ import java.awt.Graphics2D;
 
 import enity.Player;
 
+import tile.TileManager;
+
 import java.awt.Graphics;
 public class GamePanel extends JPanel implements Runnable {
     final int originalTileSize = 16;//16*16 tile
@@ -14,15 +16,15 @@ public class GamePanel extends JPanel implements Runnable {
 
     public final int tileSize = originalTileSize * scale;//48*48 tile
         // hang
-    final int maxScreenCol = 16;
+    public final int maxScreenCol = 16;
         // cot
-    final int maxScreenRow = 12;
-    final int screenWidth = tileSize * maxScreenCol;//768 pixel
-    final int screenHeight = tileSize * maxScreenRow;//576 pixel
+    public final int maxScreenRow = 12;
+    public final int screenWidth = tileSize * maxScreenCol;//768 pixel
+    public final int screenHeight = tileSize * maxScreenRow;//576 pixel
 
     // FPS
     int FPS = 60;
-
+    TileManager tileM = new TileManager(this);
     // Thread: bắt đầu và dừng khi 1 luồng bắt đầu
     // giữ cho chương trình chạy đến khi dừng 
 
@@ -31,11 +33,11 @@ public class GamePanel extends JPanel implements Runnable {
 
     Player player = new Player(this, keyH);
 
-    // set player's default position
-    int playerX = 100;
-    int playerY = 100;
-    // toc do di chuyen cua player la 4 pixels
-    int playerSpeed = 4;
+    // // set player's default position
+    // int playerX = 100;
+    // int playerY = 100;
+    // // toc do di chuyen cua player la 4 pixels
+    // int playerSpeed = 4;
 
     public GamePanel(){
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -121,6 +123,8 @@ public class GamePanel extends JPanel implements Runnable {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         //draw here
+        tileM.draw(g2);
+
         player.draw(g2);
         g2.dispose();// ban  hoaan tat
     }

@@ -40,29 +40,44 @@ public class Player extends Enity{
             e.printStackTrace();
         }
     }
-    public void update(){
-         // thay doi vi tri player theo key pressed
-        if(keyH.upPressed == true){
+    public void update(){ // call 60 times per second
+         if(keyH.upPressed == true || keyH.downPressed == true ||
+                     keyH.leftPressed == true || keyH.rightPressed == true){
+            // neu co 1 phim duoc nhan thi moi di chuyen
+            // thay doi vi tri player theo key pressed
+            if(keyH.upPressed == true){
             // nguoi choi di chuyen len tren
-            direction = "up";
-            y -= speed;
+                direction = "up";
+                y -= speed;
             
-        } else if(keyH.downPressed == true){
-            // nguoi choi di chuyen xuong duoi
-            direction = "down";
-            y += speed;
+            } else if(keyH.downPressed == true){
+                // nguoi choi di chuyen xuong duoi
+                direction = "down";
+                y += speed;
             
-        } else if(keyH.leftPressed == true){
-            // nguoi choi di chuyen sang trai
-            direction = "left";
-            x -= speed;
+            } else if(keyH.leftPressed == true){
+                // nguoi choi di chuyen sang trai
+                direction = "left";
+                x -= speed;
             
-        } else if(keyH.rightPressed == true){
-            // nguoi choi di chuyen sang phai
-            direction = "right";
-            x += speed;
+            } else if(keyH.rightPressed == true){
+                // nguoi choi di chuyen sang phai
+                direction = "right";
+                x += speed;
             
+            }
+            // them bo dem de thay doi sprite
+            spriteCounter++;
+            if(spriteCounter > 12){
+                if(spriteNum ==1){
+                    spriteNum =2;
+                } else if (spriteNum ==2){
+                    spriteNum =1;
+                }
+            spriteCounter =0;// reset lai bo dem
+            }
         }
+        
     }
     public void draw(Graphics2D g2){
 
@@ -72,16 +87,40 @@ public class Player extends Enity{
         BufferedImage image = null;
         switch(direction){
             case "up":
-                image = up1;
+                if(spriteNum ==1){
+                    image = up1;
+                }
+                if(spriteNum ==2){
+                    image = up2;
+                }
+        
                 break;
             case "down":
-                image = down1;
+                if(spriteNum ==1){
+                    image = down1;
+                }
+                if(spriteNum ==2){
+                    image = down2;
+                }
+                
                 break;
             case "left":
-                image = left1;
+                if(spriteNum ==1){
+                    image = left1;
+                }
+                if(spriteNum ==2){
+                    image = left2;
+                }
+                
                 break;
             case "right":
-                image = right1;
+                if(spriteNum ==1){
+                    image = right1;
+                }
+                if(spriteNum ==2){
+                    image = right2;
+                }
+                
                 break;
         }
         g2.drawImage(image, x,y, gp.tileSize, gp.tileSize, null);
