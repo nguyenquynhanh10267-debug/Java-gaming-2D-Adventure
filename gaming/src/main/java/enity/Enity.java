@@ -1,5 +1,7 @@
 package enity;
 import java.awt.image.BufferedImage;
+import java.awt.Rectangle;
+
 public class Enity {
     public int worldX, worldY;
     public int speed;
@@ -8,4 +10,6 @@ public class Enity {
 
     public int spriteCounter = 0;
     public int spriteNum = 1;
+    public Rectangle solidArea;// = new Rectangle(0, 0, 48, 48);
+    public boolean collisionOn = false;
 }

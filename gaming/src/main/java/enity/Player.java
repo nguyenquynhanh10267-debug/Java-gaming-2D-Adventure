@@ -1,5 +1,6 @@
 package enity;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
@@ -20,6 +21,8 @@ public class Player extends Enity{
         screenX = gp.screenWidth /2 - (gp.tileSize /2);
         screenY = gp.screenHeight /2 - (gp.tileSize/2); // vi tri player luon o giua man hinh
         
+        solidArea = new Rectangle(8, 16, 32, 32);
+
         setDefaultValues();
         getPlayerImage();
     }
@@ -55,23 +58,43 @@ public class Player extends Enity{
             if(keyH.upPressed == true){
             // nguoi choi di chuyen len tren
                 direction = "up";
-                worldY -= speed;
+                //worldY -= speed;
             
             } else if(keyH.downPressed == true){
                 // nguoi choi di chuyen xuong duoi
                 direction = "down";
-                worldY += speed;
+                //worldY += speed;
             
             } else if(keyH.leftPressed == true){
                 // nguoi choi di chuyen sang trai
                 direction = "left";
-                worldX -= speed;
+                //worldX -= speed;
             
             } else if(keyH.rightPressed == true){
                 // nguoi choi di chuyen sang phai
                 direction = "right";
-                worldX += speed;
+                //worldX += speed;
             
+            }
+            // check tile collision
+            collisionOn = false;
+            gp.cChecker.checkTile(this);
+            // if collision is false, player can move
+            if(collisionOn == false){
+                switch(direction){
+                    case "up":
+                        worldY -= speed;
+                        break;
+                    case "down":
+                        worldY += speed;
+                        break;
+                    case "left":
+                        worldX -= speed;
+                        break;
+                    case "right":
+                        worldX += speed;
+                        break;
+                }
             }
             // them bo dem de thay doi sprite
             spriteCounter++;

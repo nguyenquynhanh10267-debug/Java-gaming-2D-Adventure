@@ -36,7 +36,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     KeyHandler keyH = new KeyHandler();
     Thread gameThread;
-
+    public CollisionChecker cChecker = new CollisionChecker(this);// kiem tra va cham
     public Player player = new Player(this, keyH);
 
     // // set player's default position
