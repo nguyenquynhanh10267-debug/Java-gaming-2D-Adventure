@@ -14,6 +14,8 @@ public class Player extends Enity{
     KeyHandler keyH;
     public final int screenX;
     public final int screenY;
+    int hasKey = 0; // so chia khoa nguoi choi co duoc
+
 
     public Player(GamePanel gp, KeyHandler keyH){
         this.gp = gp;
@@ -22,7 +24,8 @@ public class Player extends Enity{
         screenY = gp.screenHeight /2 - (gp.tileSize/2); // vi tri player luon o giua man hinh
         
         solidArea = new Rectangle(8, 16, 32, 32);
-
+        solidAreaDefaultX = solidArea.x;// luu vi tri ban dau de reset khi can
+        solidAreaDefaultY = solidArea.y;
         setDefaultValues();
         getPlayerImage();
     }
@@ -79,6 +82,10 @@ public class Player extends Enity{
             // check tile collision
             collisionOn = false;
             gp.cChecker.checkTile(this);
+            // check object collision
+            int objIndex = gp.cChecker.checkObject(this, true);
+            pickUpObject(objIndex);
+            
             // if collision is false, player can move
             if(collisionOn == false){
                 switch(direction){
@@ -109,6 +116,32 @@ public class Player extends Enity{
         }
         
     }
+    public void pickUpObject(int index){
+        // xu ly khi nguoi choi nhan duoc object
+        if(index != 999){
+            //gp.obj[index] = null;
+            String objectName = gp.obj[index].name;
+            switch(objectName){
+                case "Key":
+                    hasKey++;
+                
+                    gp.obj[index] = null;
+                    System.out.println("You got a key! \n" + "Keys in your bag: " + hasKey);
+                    break;
+                case "Door":
+                    if(hasKey >0){
+                        
+                        gp.obj[index] = null;
+                        hasKey--;
+                        System.out.println("You opened the door! \n" + "Keys left: " + hasKey);
+                    } else {
+                        System.out.println("You need a key to open this door.");
+                    }
+                    break;
+            }
+        }
+    }
+
     public void draw(Graphics2D g2){
 
         // g2.setColor(Color.white);

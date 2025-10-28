@@ -4,7 +4,7 @@ import java.awt.Dimension;
 import java.awt.Color;
 import javax.swing.JPanel;
 import java.awt.Graphics2D;
-
+import object.SuperObject;
 import enity.Player;
 
 import tile.TileManager;
@@ -37,7 +37,11 @@ public class GamePanel extends JPanel implements Runnable {
     KeyHandler keyH = new KeyHandler();
     Thread gameThread;
     public CollisionChecker cChecker = new CollisionChecker(this);// kiem tra va cham
+    public AssetSetter aSetter = new AssetSetter(this);
+
     public Player player = new Player(this, keyH);
+    public SuperObject obj[] = new SuperObject[10];// 10 objects
+
 
     // // set player's default position
     // int playerX = 100;
@@ -54,6 +58,11 @@ public class GamePanel extends JPanel implements Runnable {
         // cho phép JPanel nhận sự kiện từ bàn phím
         this.setFocusable(true);
     }
+    // thiết lập vật phẩm trong game
+    public void setupGame(){
+        aSetter.setObject();
+    }
+
     // khoi tao luong
     public void startGameThread(){
         gameThread = new Thread(this);
@@ -61,36 +70,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     @Override
-    // sleep method
-    // public void run(){
-    //     double drawInterval = 1000000000/FPS; // nanosecond/ 0.0166 seconds
-    //     double nextDrawTime = System.nanoTime() + drawInterval;// thoi gian hien tai + khoang thoi gian de ve tiep theo
-    //     // loop begin, program update and draw
-    //     //game loop
-    //     while(gameThread != null){
-    //         // kiem tra thoi gian hien tai
-           
-
-    //         //System.out.println("The game loop is running");
-    //         // 1 update information such as character position
-    //         update();
-    //         // 2 draw: draw screen with the updated information
-    //         repaint();
-    //         // bao nhieu time cho lan ve tiep theo
-    //         try {
-    //             double remainingTime = nextDrawTime - System.nanoTime();
-    //             remainingTime = remainingTime/1000000;// chuyen nanosecond sang milisecond
-    //             if(remainingTime < 0){
-    //                 remainingTime = 0;
-    //             }
-    //             Thread.sleep((long) remainingTime);
-    //             // thoi gian ngu ket thuc, luong duoc danh thuc
-    //             nextDrawTime += drawInterval;
-    //         } catch (InterruptedException e) {
-    //             e.printStackTrace();
-    //         }
-    //     }
-    // }
+    
     // method delta
     public void run(){
         double drawInterval = 1000000000/FPS;
@@ -128,9 +108,20 @@ public class GamePanel extends JPanel implements Runnable {
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
+        
+
         //draw here
+        //tile
         tileM.draw(g2);
 
+        //object
+        for(int i =0; i < obj.length; i++){
+            if(obj[i] != null){// tranh null pointer exception
+                obj[i].draw(g2, this);
+            }
+        }
+
+        //PLAYER
         player.draw(g2);
         g2.dispose();// ban  hoaan tat
     }

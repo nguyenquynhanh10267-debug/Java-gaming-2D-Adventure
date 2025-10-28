@@ -56,4 +56,81 @@ public class CollisionChecker {
                 break;
         }   
     }
+    // kiem tra va cham giua enity va object
+    public int checkObject(Enity enity, boolean player){
+        int index = 999;// khong co object
+        for(int i =0; i < gp.obj.length; i++){
+            if(gp.obj[i] != null){
+                // vi tri enity
+                enity.solidArea.x = enity.worldX + enity.solidArea.x;
+                enity.solidArea.y = enity.worldY + enity.solidArea.y;
+                // vi tri object
+                gp.obj[i].solidArea.x = gp.obj[i].worldX + gp.obj[i].solidArea.x;
+                gp.obj[i].solidArea.y = gp.obj[i].worldY + gp.obj[i].solidArea.y;
+                //check va cham
+                switch(enity.direction){
+                    case "up":
+                        enity.solidArea.y -= enity.speed;
+                        if(enity.solidArea.intersects(gp.obj[i].solidArea)){
+                            
+                            if(gp.obj[i].collision == true){
+                                enity.collisionOn = true;
+                            }
+                            if(player == true){
+                                index = i;
+                            }
+                        }
+                        break;
+                    case "down":
+                        enity.solidArea.y += enity.speed;
+                        if(enity.solidArea.intersects(gp.obj[i].solidArea)){
+                            if(gp.obj[i].collision == true){
+                                enity.collisionOn = true;
+                            }
+                            if(player == true){
+                                index = i;
+                            }
+                        }
+                        break;
+                    case "left":
+                        enity.solidArea.x -= enity.speed;
+                        if(enity.solidArea.intersects(gp.obj[i].solidArea)){
+                            if(gp.obj[i].collision == true){
+                                enity.collisionOn = true;
+                            }
+                            if(player == true){
+                                index = i;
+                            }
+                        }
+                        break;
+                    case "right":
+                        enity.solidArea.x += enity.speed;
+                        if(enity.solidArea.intersects(gp.obj[i].solidArea)){
+                            if(gp.obj[i].collision == true){
+                                enity.collisionOn = true;
+                            }
+                            if(player == true){
+                                index = i;
+                            }
+                        }
+                        break;
+                }
+                // if(enity.solidArea.intersects(gp.obj[i].solidArea)){
+                //     if(gp.obj[i].collision == true){
+                //         enity.collisionOn = true;
+                //     }
+                //     if(player == true){
+                //         index = i;
+                //     }
+                // }
+                // reset lai vi tri sau khi kiem tra
+                enity.solidArea.x = enity.solidAreaDefaultX;
+                enity.solidArea.y = enity.solidAreaDefaultY;
+                gp.obj[i].solidArea.x = gp.obj[i].solidAreaDefaultX;
+                gp.obj[i].solidArea.y = gp.obj[i].solidAreaDefaultY;
+            
+            }
+        }
+        return index;
+    }   
 }
