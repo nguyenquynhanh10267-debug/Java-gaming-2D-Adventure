@@ -11,16 +11,23 @@ import main.GamePanel;
 public class Player extends Enity{
     GamePanel gp;
     KeyHandler keyH;
+    public final int screenX;
+    public final int screenY;
+
     public Player(GamePanel gp, KeyHandler keyH){
         this.gp = gp;
         this.keyH = keyH;
+        screenX = gp.screenWidth /2 - (gp.tileSize /2);
+        screenY = gp.screenHeight /2 - (gp.tileSize/2); // vi tri player luon o giua man hinh
+        
         setDefaultValues();
         getPlayerImage();
     }
 
     public void setDefaultValues(){
-        x = 100;
-        y = 100;
+        // vi tri khoi dau cua player trong the gioi
+        worldX = gp.tileSize * 23;
+        worldY = gp.tileSize * 21;
         speed = 4;
         direction = "down";
     }
@@ -48,22 +55,22 @@ public class Player extends Enity{
             if(keyH.upPressed == true){
             // nguoi choi di chuyen len tren
                 direction = "up";
-                y -= speed;
+                worldY -= speed;
             
             } else if(keyH.downPressed == true){
                 // nguoi choi di chuyen xuong duoi
                 direction = "down";
-                y += speed;
+                worldY += speed;
             
             } else if(keyH.leftPressed == true){
                 // nguoi choi di chuyen sang trai
                 direction = "left";
-                x -= speed;
+                worldX -= speed;
             
             } else if(keyH.rightPressed == true){
                 // nguoi choi di chuyen sang phai
                 direction = "right";
-                x += speed;
+                worldX += speed;
             
             }
             // them bo dem de thay doi sprite
@@ -123,7 +130,7 @@ public class Player extends Enity{
                 
                 break;
         }
-        g2.drawImage(image, x,y, gp.tileSize, gp.tileSize, null);
+        g2.drawImage(image, screenX,screenY, gp.tileSize, gp.tileSize, null);
     }
 
 }
