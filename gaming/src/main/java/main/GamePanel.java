@@ -25,20 +25,23 @@ public class GamePanel extends JPanel implements Runnable {
     // World settings
     public final int maxWorldCol = 50;
     public final int maxWorldRow = 50;
-    public final int worldWidth = tileSize * maxWorldCol;
-    public final int worldHeight = tileSize * maxWorldRow;
-
+    
     // FPS
     int FPS = 60;
+
+    //System
     TileManager tileM = new TileManager(this);
     // Thread: bắt đầu và dừng khi 1 luồng bắt đầu
     // giữ cho chương trình chạy đến khi dừng 
 
     KeyHandler keyH = new KeyHandler();
-    Thread gameThread;
+    Sound music = new Sound();
+    Sound se = new Sound(); 
     public CollisionChecker cChecker = new CollisionChecker(this);// kiem tra va cham
     public AssetSetter aSetter = new AssetSetter(this);
-
+    public UI ui = new UI(this);
+    Thread gameThread;
+    // entity and object
     public Player player = new Player(this, keyH);
     public SuperObject obj[] = new SuperObject[10];// 10 objects
 
@@ -61,6 +64,7 @@ public class GamePanel extends JPanel implements Runnable {
     // thiết lập vật phẩm trong game
     public void setupGame(){
         aSetter.setObject();
+        playMusic(0);
     }
 
     // khoi tao luong
@@ -109,7 +113,6 @@ public class GamePanel extends JPanel implements Runnable {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         
-
         //draw here
         //tile
         tileM.draw(g2);
@@ -123,6 +126,23 @@ public class GamePanel extends JPanel implements Runnable {
 
         //PLAYER
         player.draw(g2);
+        //UI
+        ui.draw(g2);
         g2.dispose();// ban  hoaan tat
     }
+    public void playMusic(int i){
+        music.setFile(i);
+        music.play();
+        music.loop();
+    }
+    public void stopMusic(){
+        music.stop();
+    }
+    public void playSE(int i){// sound effect
+        se.setFile(i);
+        se.play();
+    }
+
+
+
 }

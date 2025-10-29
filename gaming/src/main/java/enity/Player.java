@@ -14,7 +14,7 @@ public class Player extends Enity{
     KeyHandler keyH;
     public final int screenX;
     public final int screenY;
-    int hasKey = 0; // so chia khoa nguoi choi co duoc
+    public int hasKey = 0; // so chia khoa nguoi choi co duoc
 
 
     public Player(GamePanel gp, KeyHandler keyH){
@@ -123,20 +123,39 @@ public class Player extends Enity{
             String objectName = gp.obj[index].name;
             switch(objectName){
                 case "Key":
+                    gp.playSE(1);
                     hasKey++;
-                
                     gp.obj[index] = null;
-                    System.out.println("You got a key! \n" + "Keys in your bag: " + hasKey);
+                    //System.out.println("You got a key! \n" + "Keys in your bag: " + hasKey);
+                    gp.ui.showMessage("You got a key! " );
                     break;
                 case "Door":
                     if(hasKey >0){
-                        
+                        gp.playSE(3);
                         gp.obj[index] = null;
                         hasKey--;
-                        System.out.println("You opened the door! \n" + "Keys left: " + hasKey);
+                        //System.out.println("You opened the door! \n" + "Keys left: " + hasKey);
+                        gp.ui.showMessage("You opened the door! ");
                     } else {
-                        System.out.println("You need a key to open this door.");
+                        //System.out.println("You need a key to open this door.");
+                        gp.ui.showMessage("You need a key to open this door.");
                     }
+                    break;
+                case "Boots":// tang toc do di chuyen
+                    gp.playSE(2);
+                    speed +=2;
+                    gp.obj[index] = null;
+                    //System.out.println("Speed up! Your speed is now " + speed);
+                    gp.ui.showMessage("Speed up! Your speed is now " + speed);
+                    break;
+                // co the tao vat pham khien nguoi choi cham hon
+                case "Chest":
+                    gp.ui.gameFinished = true;
+                    gp.stopMusic();
+                    gp.playSE(4);
+                    // gp.obj[index] = null;
+                    // //System.out.println("You found the treasure! You win!");
+                    // gp.ui.showMessage("You found the treasure! You win!");
                     break;
             }
         }
