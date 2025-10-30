@@ -6,7 +6,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import main.KeyHandler;
 //import java.awt.Color;
-
+import main.UtilityTool;
 import main.GamePanel;
 
 public class Player extends Enity{
@@ -38,21 +38,28 @@ public class Player extends Enity{
         direction = "down";
     }
     public void getPlayerImage(){
+        
+        up1 = setup("oldman_up_1");
+        up2 = setup("oldman_up_2");
+        down1 = setup("oldman_down_1");
+        down2 = setup("oldman_down_2");
+        left1 = setup("oldman_left_1");
+        left2 = setup("oldman_left_2");
+        right1 = setup("oldman_right_1");
+        right2 = setup("oldman_right_2");
+    }
+    public BufferedImage setup(String imageName){
+        UtilityTool uTool = new UtilityTool();
+        BufferedImage image = null;
         try{
-            // upload image
-            up1 = ImageIO.read(getClass().getResourceAsStream("/player/oldman_up_1.png"));
-            up2 = ImageIO.read(getClass().getResourceAsStream("/player/oldman_up_2.png"));
-            down1 = ImageIO.read(getClass().getResourceAsStream("/player/oldman_down_1.png"));
-            down2 = ImageIO.read(getClass().getResourceAsStream("/player/oldman_down_2.png"));
-            left1 = ImageIO.read(getClass().getResourceAsStream("/player/oldman_left_1.png"));
-            left2 = ImageIO.read(getClass().getResourceAsStream("/player/oldman_left_2.png"));
-            right1 = ImageIO.read(getClass().getResourceAsStream("/player/oldman_right_1.png"));
-            right2 = ImageIO.read(getClass().getResourceAsStream("/player/oldman_right_2.png"));
-
-        } catch (IOException e){
+            image = ImageIO.read(getClass().getResourceAsStream("/player/" + imageName + ".png"));
+            image = uTool.scaleImage(image, gp.tileSize, gp.tileSize);
+        } catch(IOException e){
             e.printStackTrace();
         }
+        return image;
     }
+
     public void update(){ // call 60 times per second
          if(keyH.upPressed == true || keyH.downPressed == true ||
                      keyH.leftPressed == true || keyH.rightPressed == true){
@@ -205,7 +212,7 @@ public class Player extends Enity{
                 
                 break;
         }
-        g2.drawImage(image, screenX,screenY, gp.tileSize, gp.tileSize, null);
+        g2.drawImage(image, screenX,screenY, null);
     }
 
 }

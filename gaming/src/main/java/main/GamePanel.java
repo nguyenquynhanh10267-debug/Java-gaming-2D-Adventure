@@ -40,6 +40,8 @@ public class GamePanel extends JPanel implements Runnable {
     public CollisionChecker cChecker = new CollisionChecker(this);// kiem tra va cham
     public AssetSetter aSetter = new AssetSetter(this);
     public UI ui = new UI(this);
+    public UtilityTool uTool = new UtilityTool();
+
     Thread gameThread;
     // entity and object
     public Player player = new Player(this, keyH);
@@ -112,6 +114,11 @@ public class GamePanel extends JPanel implements Runnable {
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
+        // Debug
+        long drawStart = 0;
+        if(keyH.checkDrawTime == true){
+            drawStart = System.nanoTime();// lay thoi gian hien tai
+        }
         
         //draw here
         //tile
@@ -126,8 +133,21 @@ public class GamePanel extends JPanel implements Runnable {
 
         //PLAYER
         player.draw(g2);
+
         //UI
         ui.draw(g2);
+
+        //Debug
+        if(keyH.checkDrawTime == true){
+            long drawEnd = System.nanoTime();
+            long passed = drawEnd - drawStart;
+            g2.setColor(Color.white);
+            g2.drawString("Draw time: " + passed, 10, 400);
+            System.out.println("Draw time: " + passed);
+
+
+        }
+        
         g2.dispose();// ban  hoaan tat
     }
     public void playMusic(int i){
